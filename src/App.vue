@@ -1,28 +1,74 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Navbar/>
+    <Header/>
+    <Content/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from '@/components/layout/Header.vue'
+import Navbar from '@/components/layout/Navbar.vue'
+import Content from '@/components/layout/Content.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Header,
+    Navbar,
+    Content
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app {
+    margin: 0px;
+    font-family: GoogleSans-Regular;
+    font-size: 13px;
+  }
+
+  @font-face {
+      font-family: 'GoogleSans-Regular';
+      src: url('assets/font/GoogleSans-Regular.otf') format('opentype');
+  }
+  @font-face {
+      font-family: 'GoogleSans-Bold';
+      src: url('assets/font/GoogleSans-Bold.otf') format('opentype');
+  }
+  @font-face {
+      font-family: 'GoogleSans-Italic';
+      src: url('assets/font/GoogleSans-Italic.otf') format('opentype');
+  }
+
+  .text-align-center{
+      text-align: center;
+  }
+
+  .text-align-right{
+      text-align: right;
+  }
+
+  ::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: #bbbbbb;
+  }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #808080;
+    }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 2px;
+    background-color: #e9ebee;
+  }
+
+    ::-webkit-scrollbar-track:hover {
+      background-color: #e5e5e5;
+    }
 </style>
