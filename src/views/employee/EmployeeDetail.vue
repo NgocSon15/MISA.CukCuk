@@ -18,21 +18,21 @@
                     <div style="display: flex;">
                         <div class="left-label">
                             <label>Mã nhân viên (<font color="red">*</font>)</label>
-                            <input type="text" class="text-field" id="txtEmployeeCode" required />
+                            <input type="text" class="text-field" id="txtEmployeeCode" v-model="employee.employeeCode" required />
                         </div>
                         <div class="right-label">
                             <label>Họ và tên (<font color="red">*</font>)</label>
-                            <input type="text" class="text-field" id="txtFullName" required />
+                            <input type="text" class="text-field" id="txtFullName" v-model="employee.fullName" required />
                         </div>
                     </div>
                     <div style="display: flex;">
                         <div class="left-label">
                             <label>Ngày sinh</label>
-                            <input type="date" class="text-field" id="txtDateOfBirth" />
+                            <input type="date" class="text-field" id="txtDateOfBirth" v-model="employee.dateOfBirth"/>
                         </div>
                         <div class="right-label">
                             <label>Giới tính</label>
-                            <select class="dropdown" id="txtGender">
+                            <select class="dropdown" id="txtGender" v-model="employee.gender">
                                 <option value="0">Nam</option>
                                 <option value="1">Nữ</option>
                                 <option value="2">Khác</option>
@@ -42,27 +42,27 @@
                     <div style="display:flex;">
                         <div class="left-label">
                             <label>Số CMTND/ Căn cước (<font color="red">*</font>)</label>
-                            <input type="text" class="text-field" required id="txtIdentityNumber" />
+                            <input type="text" class="text-field" required id="txtIdentityNumber" v-model="employee.identityNumber"/>
                         </div>
                         <div class="right-label">
                             <label>Ngày cấp</label>
-                            <input type="date" class="text-field" id="txtIdentityDate" />
+                            <input type="date" class="text-field" id="txtIdentityDate" v-model="employee.identityDate"/>
                         </div>
                     </div>
                     <div style="display: flex;">
                         <div class="left-label">
                             <label>Nơi cấp</label>
-                            <input type="text" class="text-field" id="txtIdentityPlace" />
+                            <input type="text" class="text-field" id="txtIdentityPlace" v-model="employee.identityPlace"/>
                         </div>
                     </div>
                     <div style="display: flex;">
                         <div class="left-label">
                             <label>Email (<font color="red">*</font>)</label>
-                            <input type="email" class="text-field" placeholder="example@domain.com" id="txtEmail" required />
+                            <input type="email" class="text-field" placeholder="example@domain.com" id="txtEmail"  v-model="employee.email" required />
                         </div>
                         <div class="right-label">
                             <label>Số điện thoại (<font color="red">*</font>)</label>
-                            <input type="text" class="text-field" id="txtPhoneNumber" required />
+                            <input type="text" class="text-field" id="txtPhoneNumber" v-model="employee.phoneNumber" required />
                         </div>
                     </div>
                     <div><b>B. THÔNG TIN CÔNG VIỆC:</b></div>
@@ -72,7 +72,7 @@
                             <div class="left-label">
                                 <label>Vị trí</label>
                                 <br />
-                                <select class="dropdown" id="txtPositionId">
+                                <select class="dropdown" id="txtPositionId" v-model="employee.positionId">
                                     <option value="6528b15d-6674-724f-79a4-4b24de418577">Giám đốc</option>
                                     <option value="27f91d6c-14b1-6c74-92ef-c9d5c2d91e91">Nhân viên</option>
                                     <option value="3e39129b-279f-623f-88ea-778aee59fea3">Trưởng phòng</option>
@@ -82,7 +82,7 @@
                             <div class="right-label">
                                 <label>Phòng ban</label>
                                 <br />
-                                <select class="dropdown" id="txtDepartmentId">
+                                <select class="dropdown" id="txtDepartmentId" v-model="employee.departmentId">
                                     <option value="7c4f14d8-66fb-14ae-198f-6354f958f4c0">Phòng Nhân sự</option>
                                     <option value="78aafe4a-67a7-2076-3bf3-eb0223d0a4f7">Phòng Marketing</option>
                                     <option value="35e773ea-5d44-2dda-26a8-6d513e380bde">Phòng Công nghệ</option>
@@ -94,12 +94,12 @@
                         <div style="display: flex;">
                             <div class="left-label">
                                 <label>Mã số thuế cá nhân</label>
-                                <input type="text" class="text-field" id="txtPersonalTaxCode" />
+                                <input type="text" class="text-field" id="txtPersonalTaxCode" v-model="employee.personalTaxCode"/>
                             </div>
                             <div class="right-label">
                                 <label>Mức lương cơ bản</label>
                                 <div class="money-field">
-                                    <input type="text" style="width: 100%; height: 18px;" id="txtSalary" />
+                                    <input type="text" style="width: 100%; height: 18px;" id="txtSalary" v-model="employee.salary" />
                                     <span class="currency-for-input">(VNĐ)</span>
                                 </div>
                             </div>
@@ -107,12 +107,12 @@
                         <div style="display: flex;">
                             <div class="left-label">
                                 <label>Ngày gia nhập công ty</label>
-                                <input type="date" class="text-field" id="txtJoinDate" />
+                                <input type="date" class="text-field" id="txtJoinDate" v-model="employee.joinDate"/>
                             </div>
                             <div class="right-label">
                                 <label>Tình trạng công việc</label>
                                 <br />
-                                <select class="dropdown" id="txtWorkStatus">
+                                <select class="dropdown" id="txtWorkStatus" v-model="employee.workStatus">
                                     <option value="0">Đang làm việc</option>
                                     <option value="2">Đã nghỉ việc</option>
                                     <option value="3">Đã nghỉ hưu</option>
@@ -127,7 +127,7 @@
                 <div style="display: flex; align-items: center; position:absolute; right: 16px;">
                     <button id="btnCancel" class="cancel-btn" @click="btnCancelOnClick">Hủy</button>
                     <button id="btnDelete" class="delete-btn">Xóa</button>
-                    <button id="btnSave" class="btn" value="add">Lưu</button>
+                    <button id="btnSave" class="btn" value="add" @click="btnSaveOnClick">Lưu</button>
                 </div>
             </div>
         </div>
@@ -135,13 +135,41 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     props: ["isHide"],
     methods: {
         btnCancelOnClick() {
             this.$emit('closeDialog',true);
+        },
+        async btnSaveOnClick() {
+            const response = await axios.post("http://localhost:64798/api/Employees", this.employee);
+            console.log(response);
         }
     },
+    data() {
+        return {
+            employee: {
+                dateOfBirth: "2021-01-01T00:00:00",
+                departmentId: "7c4f14d8-66fb-14ae-198f-6354f958f4c0",
+                departmentName: "Phòng Nhân sự",
+                email: "meomeo@ducbo.tran",
+                employeeCode: "NV123123",
+                fullName: "Trần Đức Bo",
+                gender: 0,
+                identityDate: "2021-01-01T00:00:00",
+                identityNumber: "828288100",
+                identityPlace: "Hà Nội",
+                joinDate: "1970-01-01T00:00:00",
+                personalTaxCode: "88281928389",
+                phoneNumber: "882210",
+                positionId: "6528b15d-6674-724f-79a4-4b24de418577",
+                positionName: "Giám đốc",
+                salary: "10000000",
+                workStatus: 0,
+            }
+        }
+    }
 }
 </script>
 
@@ -165,7 +193,7 @@ export default {
         width: 750px;
         background-color: #ffffff;
         left: calc(50vw - 325px);
-        top: 0;
+        top: calc(50vh - 411px);
         border-radius: 5px;
     }
 
@@ -174,7 +202,7 @@ export default {
         position: relative;
         height: 40px;
         color: #000000;
-        font-size: 24px;
+        font-size: 18px;
         padding-left: 16px;
         align-items: center;
     }

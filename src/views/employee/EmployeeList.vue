@@ -11,18 +11,25 @@
         </div>
         <div class="filter-bar">
             <div class="filter-left">
-                <input type="text" class="search-icon input-search" placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại" />
-                <select class="dropdown">
-                    <option>Tất cả phòng ban</option>
-                    <option>Văn phòng Hà Nội</option>
+                <input type="text" class="search-icon input-search" placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại" @input="searchEmployee" v-model="searchWord"/>
+                <select class="dropdown" @select="searchEmployee" v-model="departmentId">
+                    <option value="">Tất cả phòng ban</option>
+                    <option value="7c4f14d8-66fb-14ae-198f-6354f958f4c0">Phòng Nhân Sự</option>
+                    <option value="78aafe4a-67a7-2076-3bf3-eb0223d0a4f7">Phòng Marketing</option>
+                    <option value="45ac3d26-18f2-18a9-3031-644313fbb055">Phòng Đào Tạo</option>
+                    <option value="35e773ea-5d44-2dda-26a8-6d513e380bde">Phòng Công Nghệ</option>
+                    <option value="3f8e6896-4c7d-15f5-a018-75d8bd200d7c">Phòng Hành Chính</option>
                 </select>
-                <select class="dropdown">
-                    <option>Tất cả vị trí</option>
-                    <option>Giám đốc</option>
+                <select class="dropdown" @select="searchEmployee" v-model="positionId">
+                    <option value="">Tất cả vị trí</option>
+                    <option value="6528b15d-6674-724f-79a4-4b24de418577">Giám đốc</option>
+                    <option value="27f91d6c-14b1-6c74-92ef-c9d5c2d91e91">Nhân viên</option>
+                    <option value="30007451-29ff-4fe4-3707-70859f4ff30d">Thu ngân</option>
+                    <option value="3e39129b-279f-623f-88ea-778aee59fea3">Trưởng phòng</option>
                 </select>
             </div>
             <div class="filter-right">
-                <button id="btnRefresh" class="second-btn refresh-btn"></button>
+                <button id="btnRefresh" class="second-btn refresh-btn" @click="refreshData"></button>
             </div>
         </div>
         <div class="grid grid-employee">
@@ -42,17 +49,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(employee, index) in employees" :key="index">
-                        <td style="max-width: 90px;" :title="employee.EmployeeCode" fieldName="EmployeeCode">{{employee.EmployeeCode}}</td>
-                        <td style="max-width: 120px;" :title="employee.FullName" fieldName="FullName">{{employee.FullName}}</td>
-                        <td style="max-width: 70px;" :title="employee.Gender" fieldName="Gender" formatType="Gender">{{employee.Gender}}</td>
-                        <td style="max-width: 100px;" class="text-align-center" :title="employee.DateOfBirth" fieldName="DateOfBirth" formatType="Date">{{employee.DateOfBirth}}</td>
-                        <td style="max-width: 120px;" :title="employee.PhoneNumber" fieldName="PhoneNumber">{{employee.PhoneNumber}}</td>
-                        <td style="max-width: 200px;" title="Email" fieldName="Email">{{employee.Email}}</td>
-                        <td style="max-width: 80px;" title="Chức vụ" fieldName="PositionName">{{employee.PositionName}}</td>
-                        <td style="max-width: 100px;" title="Phòng ban" fieldName="DepartmentName">{{employee.DepartmentName}}</td>
-                        <td style="max-width: 100px;" class="text-align-right" title="Mức lương cơ bản" fieldName="Salary" formatType="Money">{{employee.Salary}}</td>
-                        <td style="max-width: 100px;" title="Tình trạng công việc" fieldName="WorkStatus" formatType="Status">{{employee.WorkStatus}}</td>
+                    <tr v-for="(employee, index) in employees" :key="index" @dblclick="rowOnDoubleClick">
+                        <td style="max-width: 90px;" :title="employee.EmployeeCode" fieldName="EmployeeCode">{{employee.employeeCode}}</td>
+                        <td style="max-width: 120px;" :title="employee.FullName" fieldName="FullName">{{employee.fullName}}</td>
+                        <td style="max-width: 70px;" :title="employee.Gender" fieldName="Gender" formatType="Gender">{{getGenderName(employee.gender)}}</td>
+                        <td style="max-width: 100px;" class="text-align-center" :title="employee.DateOfBirth" fieldName="DateOfBirth" formatType="Date">{{formatDate(employee.dateOfBirth)}}</td>
+                        <td style="max-width: 120px;" :title="employee.PhoneNumber" fieldName="PhoneNumber">{{employee.phoneNumber}}</td>
+                        <td style="max-width: 200px;" title="Email" fieldName="Email">{{employee.email}}</td>
+                        <td style="max-width: 80px;" title="Chức vụ" fieldName="PositionName">{{employee.positionName}}</td>
+                        <td style="max-width: 100px;" title="Phòng ban" fieldName="DepartmentName">{{employee.departmentName}}</td>
+                        <td style="max-width: 100px;" class="text-align-right" title="Mức lương cơ bản" fieldName="Salary" formatType="Money">{{formatMoney(employee.salary)}}</td>
+                        <td style="max-width: 100px;" title="Tình trạng công việc" fieldName="WorkStatus" formatType="Status">{{getWorkStatusName(employee.workStatus)}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -83,34 +90,111 @@ export default {
         return {
             employees: [],
             isHideParent: true,
+            searchWord: "",
+            departmentId: "",
+            positionId: ""
         }
     },
     components: {
         Dialog,
     },
     methods: {
+        async refreshData() {
+            const response = await axios.get("http://localhost:64798/api/Employees");
+            this.employees = response.data;
+        },
         btnAddOnClick() {
             this.isHideParent = false;
         },
         closeDialog(value) {
             this.isHideParent = value;
-        }
+        },
+        rowOnDoubleClick() {
+            this.isHideParent = false;
+        },
+        async searchEmployee() {
+            if (this.searchWord != null && this.searchWord != "" && this.positionId != "" && this.departmentId != "") {
+                const response = await axios.get("http://localhost:64798/api/Employees/search?searchWord=" + this.searchWord + "&departmentId=" + this.departmentId +"&positionId=" + this.positionId);
+                this.employees = response.data;
+            }
+            else {
+                this.refreshData();
+            }
+        },
+        formatDate(date) {
+            date = new Date(date);
+            if (Number.isNaN(date.getTime())) {
+                return "";
+            }
+            else {
+                var day = date.getDate();
+                if (day < 10) day = '0' + day;
+                var month = date.getMonth() + 1;
+                if (month < 10) month = '0' + month;
+                var year = date.getFullYear();
+                return day + '/' + month + '/' + year;
+            }
+        },
+        formatMoney(money) {
+            if (money == null) {
+                return "";
+            } else {
+                var num = money.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                return num;
+            }
+        },
+        getGenderName(genderCode) {
+            if (genderCode == 0) {
+                return "Nam";
+            }
+            else if (genderCode == 1) {
+                return "Nữ";
+            }
+            else
+            {
+                return "Khác";
+            }
+        },
+
+        getWorkStatusName(statusCode) {
+            if (statusCode == 0) {
+                return "Đang làm việc";
+            }
+            else if (statusCode == 1) {
+                return "Đang thử việc";
+            }
+            else if (statusCode == 2) {
+                return "Đã nghỉ việc";
+            }
+            else
+            {
+                return "Đã nghỉ hưu";
+            }
+        },
     },
     async created() {
-        const response = await axios.get("http://localhost:64798/api/employees");
+        const response = await axios.get("http://localhost:64798/api/Employees");
         this.employees = response.data;
     }
 }
 </script>
 
 <style scoped>
+    .text-align-right{
+        text-align: right;
+    }
+
+    .text-align-center{
+        text-align: center;
+    }
+
     .content {
-    position: absolute;
-    left: 201px;
-    top: 60px;
-    width: calc(100% - 201px);
-    height: calc(100vh - 61px);
-}
+        position: absolute;
+        left: 201px;
+        top: 60px;
+        width: calc(100% - 201px);
+        height: calc(100vh - 61px);
+    }
 
     .content .header-content {
         padding: 16px;
